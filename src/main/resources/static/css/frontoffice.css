@@ -1,0 +1,386 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+
+:root {
+    --cor-principal-vinho: #5C0A0A;
+    --hover-vinho: #930000;
+    --cinza-claro: #DCDCDC;
+    --cinza-escuro: #242424;
+    --hover-cinza-escuro: #141414;
+    --dourado-estrelas: #C1A57B;
+    --bege: #F5E6CC;
+    --branco: #fff;
+    --font-size-base: 1rem; /* rem para adaptabilidade */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    width: 100%;
+    font-size: var(--font-size-base);
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--cinza-escuro);
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--cinza-escuro);
+    line-height: 1.2;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--cinza-escuro);
+    line-height: 1.2;
+}
+
+h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--cinza-escuro);
+    line-height: 1.2;
+}
+
+p {
+    color: var(--cinza-escuro);
+}
+
+.section-p1 {
+    padding: 2.5rem 10vw;
+}
+
+.section-m1 {
+    padding: 2.5rem 0;
+}
+
+/* HEADER */
+#header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2vh 5vw;
+    background: var(--branco);
+    box-shadow: 0 0.25rem 0.25rem 0 rgba(0, 0, 0, 0.25);
+}
+
+#navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#navbar li {
+    list-style: none;
+    position: relative;
+}
+
+#navbar li a {
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--cor-principal-vinho);
+    transition: 0.3s ease;
+}
+
+#navbar li a img {
+    width: 1.5rem;
+}
+
+.link-navbar {
+    margin: 0 2vw;
+}
+
+#navbar li a:hover,
+#navbar li a.active {
+    color: var(--hover-vinho);
+    font-weight: 600;
+}
+
+.logo {
+    width: 12vw;
+}
+
+.icone-navbar {
+    margin: 0 0 0 2vw;
+}
+
+/* BANNER */
+#banner {
+    background-image: url("../images/banner.png");
+    width: 100%;
+    height: 60vh;
+    background-size: cover;
+    background-position: top 25% right 0;
+    background-repeat: no-repeat;
+    align-items: center;
+    display: flex;
+}
+
+.banner {
+    padding: 0 0 5vw 6vw;
+}
+
+.banner h1 {
+    font-size: 2.5vw;
+    margin-bottom: 2vh;
+}
+
+.banner h3 {
+    font-size: 1.5vw;
+    color: var(--bege);
+    margin-bottom: 10vh;
+}
+
+.frase {
+    display: flex;
+    margin-bottom: 2vh;
+}
+
+.frase h1 {
+    font-size: 2.5vw;
+}
+
+.frase-palavra {
+    font-weight: 800;
+    color: var(--cor-principal-vinho);
+    margin-left: 1vw;
+}
+
+.btn-compre {
+    text-decoration: none;
+    color: var(--branco);
+    background: var(--cor-principal-vinho);
+    padding: 1vw 2vw;
+    border-radius: 1vw;
+    transition: 0.3s ease;
+    font-size: 1.5vw;
+    font-weight: 600;
+}
+
+.btn-compre:hover {
+    background: var(--hover-vinho);
+}
+
+/*MAIS VENDIDOS e NOVAS SAFRAS*/
+.pro-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2vw;
+    margin-top: 2vw;
+}
+
+.pro {
+    background-color: var(--branco);
+    border: 1px solid var(--cinza-claro);
+    border-radius: 1vw;
+    padding: 1.5rem;
+    width: calc(25% - 2rem);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pro img {
+    width: 100%;
+    margin-bottom: 2vw;
+}
+
+.pro:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2);
+}
+
+.des {
+    text-align: left;
+}
+
+#protutos1 h2, #protutos2 h2 {
+    font-weight: 700;
+}
+
+.des h4 {
+    margin-bottom: 0.5vw;
+    color: var(--cinza-escuro);
+    font-weight: 700;
+    font-size: 1.2vw;
+}
+
+.avaliacao-estrelas {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 1vw;
+}
+
+.estrela {
+    width: 1.25vw;
+    height: 1.25vw;
+    color: var(--dourado-estrelas);
+}
+
+.estrela.vazia {
+    fill: none;
+    stroke-width: 0.1vw;
+    stroke: var(--dourado-estrelas);
+}
+
+.des h4:last-of-type {
+    font-size: 1.25vw;
+    color: var(--cor-principal-vinho);
+    margin-top: 1rem;
+    font-weight: 600;
+    margin-bottom: 2vw;
+}
+
+.saiba-mais-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1vw;
+}
+
+.saiba-mais-container a {
+    text-decoration: none;
+    color: var(--branco);
+    background-color: var(--cor-principal-vinho);
+    padding: 0.5vw 3vw;
+    border-radius: 0.7vw;
+    font-weight: 600;
+    transition: 0.3s ease;
+    font-size: 1.2vw;
+}
+
+.saiba-mais-container a:hover {
+    background-color: var(--hover-vinho);
+
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.image-container img {
+    width: 80%;
+    max-width: 150px;
+    height: auto;
+    border-radius: 1rem;
+}
+
+
+/* MINI-BANNER*/
+#mini-banner {
+    background-image: url("../images/mini-banner.png");
+    width: 100%;
+    height: 40vh;
+    background-size: cover;
+    background-position: top 25% right 0;
+    background-repeat: no-repeat;
+    text-align: center;
+    padding: 2vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2vw;
+}
+
+#mini-banner h3 {
+    font-weight: 600;
+    color: var(--branco);
+}
+
+#mini-banner h4 {
+    color: var(--bege);
+    font-weight: 500;
+    margin-bottom: 3vw;
+    margin-top: 1vw;
+}
+
+
+/* RODAPÉ */
+.rodape {
+    padding: 2vh 5vw;
+    font-size: 1.2rem;
+    overflow: hidden;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.25);
+    margin-top: 3vw;
+}
+
+.footer-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 2vh 5vw;
+}
+
+.navegacao a,
+.contatos a {
+    text-decoration: none;
+    color: var(--cor-principal-vinho);
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.contatos img {
+    width: 1.5em;
+    margin-right: 0.5em;
+    vertical-align: middle;
+}
+
+.redes-sociais ul {
+    display: flex;
+    padding: 0;
+}
+
+.navegacao ul,
+.contatos ul,
+.redes-sociais ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.redes-sociais ul li {
+    margin: 0 1vw;
+}
+
+.redes-sociais img {
+    width: 3em;
+}
+
+.rodape-frase {
+    text-align: center;
+    background-color: var(--cinza-escuro);
+    font-size: 1rem;
+    padding: 2vh 0;
+}
+
+.rodape-frase p {
+    color: var(--branco);
+    font-weight: 200;
+}
+
+.logo-rodape {
+    display: flex;
+    margin-left: 3vw;
+    margin-right: 3vw;
+    margin-bottom: 2vw;
+    border-bottom: 1px solid var(--cor-principal-vinho);
+    padding-bottom: 1vw;
+}
+
+.logo-rodape img {
+    width: 10vw;
+}

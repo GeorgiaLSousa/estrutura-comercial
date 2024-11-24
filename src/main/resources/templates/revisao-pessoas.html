@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/css/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/JS/openModal.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <title>Detalhes do Território</title>
+</head>
+<body>
+
+<main class="main-revisao-pessoas">
+  <section class="form-container">
+    <h2 class="form-title">Revisão de Pessoas</h2>
+    <div th:if="${mensagem}">
+      <p style="color: red;" th:text="${mensagem}"></p>
+    </div>
+    <form method="post" onsubmit="return">
+      <div class="input-group">
+        <label>Territorio:</label>
+        <span th:text="${territorio.codigoTerritorio}"></span>
+      </div>
+
+      <div class="input-group">
+        <label>Territorio:</label>
+        <span th:text="${territorio.codigoRegional}"></span>
+      </div>
+
+      <div class="input-group">
+        <label>Territorio:</label>
+        <span th:text="${territorio.codigoFilial}"></span>
+      </div>
+      <div>
+        <label>Email RTV:</label>
+        <span th:text="${territorio.emailRTV}"></span>
+      </div>
+    </form>
+    <h2>Atualizar Email do RTV</h2>
+    <form action="/revisao/atualizar-email" method="post">
+      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+      <input type="hidden" name="codigoTerritorio" th:value="${territorio.codigoTerritorio}">
+      <input type="email" name="emailRTV" placeholder="Email RTV" required>
+      <button type="submit">Atualizar Email</button>
+    </form>
+  </section>
+</main>
+</body>
+</html>

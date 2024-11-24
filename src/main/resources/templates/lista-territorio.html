@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Território</title>
+    <link rel="shortcut icon" href="/imagens/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/JS/openModal.js"></script>
+    <script>
+    $(document).ready(function () {
+        $('#search').on('keyup', function () {
+            var codigoTerritorio = $(this).val();
+            $.ajax({
+                url: '/territorio/buscar-territorio',
+                data: {
+                    codigoTerritorio: codigoTerritorio
+                },
+            success: function (data) {
+                $('#tabela-territorio').html(data);
+            }
+        });
+    });
+});
+        function confirmChange() {
+            return confirm("Tem certeza que deseja mudar o status do território?");
+        }
+
+        function showInactiveUserError() {
+            alert("Não é possível editar um território inativo.");
+        }
+    </script>
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo-container">
+            <img src="/imagens/logo_syngenta.png" alt="logo_Syngenta" class="logo">
+        </div>
+    </nav>
+
+    <button class="btn-voltar" onclick="window.location.href='/dashboard'" type="button"><img src="/imagens/seta.png"></button>
+</header>
+
+<main class="main-lista-usuario">
+    <div class="content-wrapper">
+        <section class="lista-usuario-container">
+            <h2 class="lista-title">Lista de Território</h2>
+            <div class="header-container">
+                <input type="text" id="search" name="codigoTerritorio" placeholder="Pesquisar Território" autocomplete="off">
+                <a href="/cadastro-territorio" class="btn-cadastro"> + Novo Território</a>
+            </div>
+            <div id="tabela-territorio" th:replace="~{fragments/tabela-territorio :: tabela-territorio}"></div>
+        </section>
+    </div>
+</main>
+</body>
+</html>
