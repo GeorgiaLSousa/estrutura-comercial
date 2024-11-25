@@ -23,20 +23,24 @@
       </div>
 
       <div class="input-group">
-        <label>Territorio:</label>
+        <label>Cod Regional:</label>
         <span th:text="${territorio.codigoRegional}"></span>
       </div>
 
       <div class="input-group">
-        <label>Territorio:</label>
+        <label>Cod Filial:</label>
         <span th:text="${territorio.codigoFilial}"></span>
       </div>
+      <div class="input-group">
+        <label>Cod Unidade:</label>
+        <span th:text="${territorio.nomeUnidade}"></span>
+      </div>
       <div>
-        <label>Email RTV:</label>
+        <label>E-mail Pessoa Alocada:</label>
         <span th:text="${territorio.emailRTV}"></span>
       </div>
     </form>
-    <h2>Atualizar Email do RTV</h2>
+    <h2>Email Nova Pessoa Alocada:</h2>
     <form action="/revisao/atualizar-email" method="post">
       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
       <input type="hidden" name="codigoTerritorio" th:value="${territorio.codigoTerritorio}">
