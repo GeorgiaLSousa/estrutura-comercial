@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="pt-BR">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6" lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <title>Cadastro de Território</title>
@@ -37,20 +37,19 @@
         <div class="logo-container">
             <img src="/imagens/logo_syngenta.png" alt="logo_Syngenta" class="logo">
         </div>
-            <div class="dropdown">
-                <button class="dropdown-btn" sec:authorize="isAuthenticated()">
-                    [[${#authentication.name}]] &#9662;
-                </button>
-                <div class="dropdown-content">
-                    <form method="post" th:action="@{/logout}">
-                        <button class="btn-logout" type="submit">Sair</button>
-                    </form>
-                </div>
+        <div class="dropdown">
+            <button class="dropdown-btn" sec:authorize="isAuthenticated()">
+                [[${#authentication.name}]] &#9662;
+            </button>
+            <div class="dropdown-content">
+                <form method="post" th:action="@{/logout}">
+                    <button class="btn-logout" type="submit">Sair</button>
+                </form>
             </div>
         </div>
     </nav>
 
-    <button class="btn-voltar" onclick="window.location.href='/lista-usuarios'" type="button"><img th:src="@{images/seta.png}"></button>
+    <button class="btn-voltar" onclick="window.location.href='/lista-usuarios'" type="button"><img th:src="@{/imagens/seta.png}"></button>
 </header>
 
 <main class="main-cadastro-usuario">
@@ -58,8 +57,8 @@
         <h2 class="form-title">Novo Território</h2>
         <div th:if="${mensagem}" th:text="${mensagem}" style="color:dimgray;"></div>
 
-        <form th:action="@{/cadastro-territorio}" th:object="${territorio}" method="post" onsubmit="return validateForm()">
-
+        <form th:action="@{/territorio/cadastro-territorio}" th:object="${territorio}" method="post" onsubmit="return validateForm()">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <div class="input-group">
                 <label for="codigoTerritorio">Território:</label>
                 <input id="codigoTerritorio" name="codigoTerritorio" required th:field="*{codigoTerritorio}" type="text"/><br/>
@@ -92,7 +91,6 @@
 
             <div class="button-group">
                 <button type="submit" class="btn-padrao">Adicionar</button>
-                <button onclick="clearForm(); return false;" type="button" class="btn-limpar">Cancelar</button>
             </div>
         </form>
     </section>
