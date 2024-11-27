@@ -1,10 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Cadastro de Território</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script>
+        function validateForm() {
+            const email = document.getElementById("email").value;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailPattern.test(email)) {
+                alert("Email inválido.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function clearForm() {
+            document.getElementById("codigoTerritorio").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("nomeRTV").value = "";
+            document.getElementById("codigoRegional").value = "";
+            document.getElementById("codigoFilial").value = "";
+            document.getElementById("nomeUnidade").value = "";
+        }
+    </script>
 </head>
 <body>
 
+<header>
+    <nav>
+        <div class="logo-container">
+            <img src="/imagens/logo_syngenta.png" alt="logo_Syngenta" class="logo">
+        </div>
+            <div class="dropdown">
+                <button class="dropdown-btn" sec:authorize="isAuthenticated()">
+                    [[${#authentication.name}]] &#9662;
+                </button>
+                <div class="dropdown-content">
+                    <form method="post" th:action="@{/logout}">
+                        <button class="btn-logout" type="submit">Sair</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <button class="btn-voltar" onclick="window.location.href='/lista-usuarios'" type="button"><img th:src="@{images/seta.png}"></button>
+</header>
+
+<main class="main-cadastro-usuario">
+    <section class="form-container">
+        <h2 class="form-title">Novo Território</h2>
+        <div th:if="${mensagem}" th:text="${mensagem}" style="color:dimgray;"></div>
+
+        <form th:action="@{/cadastro-territorio}" th:object="${territorio}" method="post" onsubmit="return validateForm()">
+
+            <div class="input-group">
+                <label for="codigoTerritorio">Território:</label>
+                <input id="codigoTerritorio" name="codigoTerritorio" required th:field="*{codigoTerritorio}" type="text"/><br/>
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input id="email" name="email" required th:field="*{emailRTV}" type="email"/><br/>
+            </div>
+
+            <div class="input-group">
+                <label for="nomeRTV">Nome RTV:</label>
+                <input id="nomeRTV" name="nomeRTV" required th:field="*{nomeRTV}" type="text"/><br/>
+            </div>
+
+            <div class="input-group">
+                <label for="codigoRegional">Cod Regional:</label>
+                <input id="codigoRegional" name="codigoRegional" required th:field="*{codigoRegional}" type="text"/><br/>
+            </div>
+
+            <div class="input-group">
+                <label for="codigoFilial">Cod Filial:</label>
+                <input id="codigoFilial" name="codigoFilial" required th:field="*{codigoFilial}" type="text"/><br/>
+            </div>
+
+            <div class="input-group">
+                <label for="nomeUnidade">Cod Unidade:</label>
+                <input id="nomeUnidade" name="nomeUnidade" required th:field="*{nomeUnidade}" type="text"/><br/>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-padrao">Adicionar</button>
+                <button onclick="clearForm(); return false;" type="button" class="btn-limpar">Cancelar</button>
+            </div>
+        </form>
+    </section>
+</main>
 </body>
 </html>
