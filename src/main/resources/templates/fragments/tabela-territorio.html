@@ -80,8 +80,7 @@
       </td>
       <td class="text-center">
         <a class="btn-visu" th:href="@{/revisao/detalhes-territorio/{codigoTerritorio}(codigoTerritorio=${territorio.codigoTerritorio})}">Revisão</a>
-        <a class="btn-edit" th:href="@{/territorio/{codigoTerritorio}(codigoTerritorio=${territorio.codigoTerritorio})}" th:if="${territorio.ativo}">Movimentação</a>
-        <a class="btn-edit" href="javascript:void(0);" onclick="showInactiveUserError()" th:unless="${territorio.ativo}">Movimentação</a>
+        <a class="btn-edit" th:href="@{/movimentacao/movimentacao-regional/{codigoTerritorio}(codigoTerritorio=${territorio.codigoTerritorio})}">Movimentação</a>
       </td>
     </tr>
     </tbody>

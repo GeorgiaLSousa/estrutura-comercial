@@ -34,5 +34,5 @@ public class Territorio {
     private String nomeUnidade;
 
     @Column(name = "isActive__c")
-    private Boolean ativo = true;
+    private Boolean ativo = true; // Define o campo ativo como true por padrão
 }

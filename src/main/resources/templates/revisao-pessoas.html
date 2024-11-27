@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/static/css/style.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/JS/openModal.js"></script>
 <head>
@@ -9,7 +9,15 @@
   <title>Detalhes do Território</title>
 </head>
 <body>
+<header>
+  <nav>
+    <div class="logo-container">
+      <img src="/imagens/logo_syngenta.png" alt="logo_Syngenta" class="logo">
+    </div>
+  </nav>
 
+  <button class="btn-voltar" onclick="window.location.href='/dashboard'" type="button"><img src="/imagens/seta.png"></button>
+</header>
 <main class="main-revisao-pessoas">
   <section class="form-container">
     <h2 class="form-title">Revisão de Pessoas</h2>

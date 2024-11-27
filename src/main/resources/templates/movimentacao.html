@@ -1,10 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/css/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/JS/openModal.js"></script>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Detalhes do Território</title>
 </head>
 <body>
+<header>
+    <nav>
+        <div class="logo-container">
+            <img src="/imagens/logo_syngenta.png" alt="logo_Syngenta" class="logo">
+        </div>
+    </nav>
 
+    <button class="btn-voltar" onclick="window.location.href='/dashboard'" type="button"><img src="/imagens/seta.png"></button>
+</header>
+<main class="main-revisao-pessoas">
+    <section class="form-container">
+        <h2 class="form-title">Movimentação</h2>
+        <div th:if="${mensagem}">
+            <p style="color: red;" th:text="${mensagem}"></p>
+        </div>
+        <form method="post" onsubmit="return">
+            <div class="input-group">
+                <label>Territorio:</label>
+                <span th:text="${territorio.codigoTerritorio}"></span>
+            </div>
+        </form>
+        <h2>Cod Regional (Novo):</h2>
+        <form action="/movimentacao/atualizar-regional" method="post">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+            <input type="hidden" name="codigoTerritorio" th:value="${territorio.codigoTerritorio}">
+            <input type="text" name="codigoRegional" placeholder="cod Regional" required>
+            <button type="submit">Movimentar</button>
+        </form>
+    </section>
+</main>
 </body>
 </html>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,31 +26,31 @@ public class TerritorioController {
     @GetMapping("/cadastro-territorio")
     public String showForm(Model model){
         model.addAttribute("territorio", new Territorio());
-        return "registrar-territorio";
+        return "novo-territorio";
     }
 
-    @PostMapping("/cadastro-territorio")
-    public String registerTerritorio(Territorio territorio, Model model){
-        try {
-            List<Territorio> territoriosExistentes = territorioService.findByNome(territorio.getCodigoTerritorio());
-            if (!territoriosExistentes.isEmpty()) {
-                model.addAttribute("mensagem", "Território já registrado!");
-                return "registrar-territorio";
-            }
-
-            territorio.setAtivo(true);
-            Territorio territorioSalvo = territorioService.save(territorio);
-
-            model.addAttribute("mensagem", "Território registrado com sucesso!");
-            return "redirect:/lista-territorio";
-
-        } catch (DataIntegrityViolationException e) {
-            model.addAttribute("mensagem", "Erro: Território já registrado!");
+   @PostMapping("/cadastro-territorio")
+public String registerTerritorio(@ModelAttribute Territorio territorio, Model model) {
+    try {
+        List<Territorio> territoriosExistentes = territorioService.findByNome(territorio.getCodigoTerritorio());
+        if (!territoriosExistentes.isEmpty()) {
+            model.addAttribute("mensagem", "Território já registrado!");
+            return "novo-territorio";
         }
-        return "registrar-territorio";
+
+        territorio.setAtivo(true); // Define o campo ativo como true
+        Territorio territorioSalvo = territorioService.save(territorio);
+
+        model.addAttribute("mensagem", "Território registrado com sucesso!");
+        return "redirect:/territorio/lista-territorio"; // Redireciona para a lista de territórios
+
+    } catch (DataIntegrityViolationException e) {
+        model.addAttribute("mensagem", "Erro: Território já registrado!");
+    } catch (Exception e) {
+        model.addAttribute("mensagem", "Erro ao registrar território!");
     }
-
-
+    return "novo-territorio";
+}
     @GetMapping("/lista-territorio")
     public String listarTerritorios(Model model) {
         List<Territorio> territorios = territorioService.findAll();
