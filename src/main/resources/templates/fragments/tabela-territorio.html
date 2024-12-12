@@ -64,6 +64,7 @@
       <th>Pessoa Alocada</th>
       <th>Status</th>
       <th>Ações</th>
+      <th>Modificado Por</th>
     </tr>
     </thead>
     <tbody>
@@ -79,9 +80,14 @@
         <label th:for="'checkbox-toggle-status-' + ${territorio.codigoTerritorio}" th:text="${territorio.ativo} ? 'Ativo' : 'Inativo'"></label>
       </td>
       <td class="text-center">
-        <a class="btn-visu" th:href="@{/revisao/detalhes-territorio/{codigoTerritorio}(codigoTerritorio=${territorio.codigoTerritorio})}">Revisão</a>
+        <a class="btn-visu" th:href="@{/revisao/detalhes-territorio(codigoTerritorio=${territorio.codigoTerritorio})}">Pessoas</a>
         <a class="btn-edit" th:href="@{/movimentacao/movimentacao-regional/{codigoTerritorio}(codigoTerritorio=${territorio.codigoTerritorio})}">Movimentação</a>
+        <a class="btn-ina" th:href="@{/territorio/alterar-estado-territorio(codigoTerritorio=${territorio.codigoTerritorio})}" th:onclick="return confirmChange()">
+          <span th:text="${territorio.ativo} ? 'Inativar' : 'Ativar'"></span>
+        </a>
       </td>
+      <td th:text="${territorio.modificadoPor}">territorio-modificado-por</td>
+
     </tr>
     </tbody>
   </table>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity5" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="shortcut icon" th:href="@{/images/favicon.ico}" type="image/x-icon">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Backoffice</title>
+</head>
+<body>
+<header>
+  <nav>
+    <div class="logo-container">
+      <img th:src="@{/imagens/logo_syngenta.png}" alt="logo_Syngenta" class="logo">
+      <div class="dropdown">
+        <button class="dropdown-btn" sec:authorize="isAuthenticated()">
+          [[${#authentication.name}]] &#9662;
+        </button>
+        <div class="dropdown-content">
+          <form method="post" th:action="@{/logout}">
+            <button class="btn-logout" type="submit">Sair</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="button-container">
+    <div>
+      <button class="btn btn-register" onclick="window.location.href='/territorio/lista-territorio'" type="button">Revisão de Estrutura</button>
+    </div>
+
+    <div sec:authorize="hasRole('ROLE_ADMINISTRADOR')">
+      <button class="btn btn-register" onclick="window.location.href='/usuarios/lista-usuarios'" type="button">Listar Usuários</button>
+    </div>
+  </div>
+</main>
+</body>
+</html>

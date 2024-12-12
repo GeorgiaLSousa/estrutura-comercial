@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Território</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script>
+    function fetchTerritoryData() {
+        const selection = document.getElementById("tipoCadastro").value;
+        const codigoRegional = document.getElementById("codigoRegional").value.toLowerCase();
+        const codigoFilial = document.getElementById("codigoFilial").value.toLowerCase();
+        const nomeUnidade = document.getElementById("nomeUnidade").value.toLowerCase();
+
+        if (selection === "Territorio" && codigoRegional) {
+            $.ajax({
+                url: '/territorio/fetch',
+                data: {codigoRegional: codigoRegional, codigoFilial: ''},
+                success: function (data) {
+                    if (data) {
+                        document.getElementById("codigoFilial").value = data.codigoFilial || "";
+                        document.getElementById("nomeUnidade").value = data.nomeUnidade || "";
+                    } else {
+                        document.getElementById("codigoFilial").value = "";
+                        document.getElementById("nomeUnidade").value = "";
+                    }
+                },
+                error: function () {
+                    alert("Erro ao buscar dados.");
+                    document.getElementById("codigoFilial").value = "";
+                    document.getElementById("nomeUnidade").value = "";
+                }
+            });
+        } else if (selection === "Regional" && codigoFilial) {
+            $.ajax({
+                url: '/territorio/fetch',
+                data: {codigoFilial: codigoFilial, nomeUnidade: ''},
+                success: function (data) {
+                    if (data) {
+                        document.getElementById("nomeUnidade").value = data.nomeUnidade || "";
+                    } else {
+                        document.getElementById("nomeUnidade").value = "";
+                    }
+                },
+                error: function () {
+                    alert("Erro ao buscar dados.");
+                    document.getElementById("nomeUnidade").value = "";
+                }
+            });
+        } else if (selection === "Filial" && nomeUnidade) {
+            $.ajax({
+                url: '/territorio/fetchByNomeUnidade',
+                data: {nomeUnidade: nomeUnidade},
+                success: function (exists) {
+                    if (!exists) {
+                        alert("Unidade não encontrada!");
+                        document.getElementById("nomeUnidade").value = "";
+                    }
+                },
+                error: function () {
+                    alert("Erro ao buscar dados.");
+                    document.getElementById("nomeUnidade").value = "";
+                }
+            });
+        } else {
+            // Limpar campos se a entrada estiver vazia
+            if (selection === "Territorio") {
+                document.getElementById("codigoFilial").value = "";
+                document.getElementById("nomeUnidade").value = "";
+            } else if (selection === "Regional") {
+                document.getElementById("nomeUnidade").value = "";
+            }
+        }
+    }
+
+    function handleSelectionChange() {
+        const selection = document.getElementById("tipoCadastro").value;
+        const codigoTerritorio = document.getElementById("codigoTerritorio");
+        const codigoRegional = document.getElementById("codigoRegional");
+        const codigoFilial = document.getElementById("codigoFilial");
+        const nomeUnidade = document.getElementById("nomeUnidade");
+
+        // Limpar campos do formulário
+        codigoTerritorio.value = "";
+        codigoRegional.value = "";
+        codigoFilial.value = "";
+        nomeUnidade.value = "";
+
+        // Habilitar/desabilitar campos com base na seleção
+        if (selection === "Territorio") {
+            codigoTerritorio.disabled = false;
+            codigoRegional.disabled = false;
+            codigoFilial.disabled = true;
+            nomeUnidade.disabled = true;
+        } else if (selection === "Regional") {
+            codigoTerritorio.disabled = true;
+            codigoRegional.disabled = false;
+            codigoFilial.disabled = false;
+            nomeUnidade.disabled = true;
+        } else if (selection === "Filial") {
+            codigoTerritorio.disabled = true;
+            codigoRegional.disabled = true;
+            codigoFilial.disabled = false;
+            nomeUnidade.disabled = false;
+        }
+
+        // Armazenar o valor selecionado no campo oculto
+        document.getElementById("selectedTipoCadastro").value = selection;
+    }
+
+    function enableFields() {
+        document.getElementById("codigoTerritorio").disabled = false;
+        document.getElementById("codigoRegional").disabled = false;
+        document.getElementById("codigoFilial").disabled = false;
+        document.getElementById("nomeUnidade").disabled = false;
+    }
+
+    function updateCodigoTerritorio() {
+        const selection = document.getElementById("tipoCadastro").value;
+        const codigoRegional = document.getElementById("codigoRegional").value;
+        const codigoFilial = document.getElementById("codigoFilial").value;
+
+        if (selection === "Regional" && codigoRegional) {
+            document.getElementById("codigoTerritorio").value = "Criada: " + codigoRegional;
+        } else if (selection === "Filial" && codigoFilial) {
+            document.getElementById("codigoTerritorio").value = "Criada: " + codigoFilial;
+            document.getElementById("codigoRegional").value = "Criada: " + codigoFilial;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("tipoCadastro").addEventListener("change", handleSelectionChange);
+        document.getElementById("codigoRegional").addEventListener("blur", fetchTerritoryData);
+        document.getElementById("codigoFilial").addEventListener("blur", fetchTerritoryData);
+        document.getElementById("nomeUnidade").addEventListener("blur", fetchTerritoryData);
+        document.getElementById("codigoRegional").addEventListener("blur", updateCodigoTerritorio);
+        document.getElementById("codigoFilial").addEventListener("blur", updateCodigoTerritorio);
+
+        // Definir o valor do dropdown com base no campo oculto
+        const selectedTipoCadastro = document.getElementById("selectedTipoCadastro").value;
+        if (selectedTipoCadastro) {
+            document.getElementById("tipoCadastro").value = selectedTipoCadastro;
+        } else {
+            document.getElementById("tipoCadastro").value = "Territorio"; // Definir valor padrão
+        }
+
+        handleSelectionChange(); // Chamar a função ao carregar a página para definir o estado padrão
+    });
+</script>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo-container">
+            <img th:src="@{/imagens/logo_syngenta.png}" alt="logo_Syngenta" class="logo">
+            <div class="dropdown">
+                <button class="dropdown-btn" sec:authorize="isAuthenticated()">
+                    [[${#authentication.name}]] &#9662;
+                </button>
+                <div class="dropdown-content">
+                    <form method="post" th:action="@{/logout}">
+                        <button class="btn-logout" type="submit">Sair</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <button class="btn-voltar" onclick="window.location.href='/territorio/lista-territorio'" type="button"><img
+            th:src="@{/imagens/seta.png}"></button>
+</header>
+
+<main class="main-cadastro-usuario">
+    <section class="form-container">
+        <h2 class="form-title">Novo Estrutura</h2>
+        <div th:if="${mensagem}" th:text="${mensagem}" style="color:dimgray;"></div>
+
+        <form th:action="@{/territorio/cadastro-territorio}" th:object="${territorio}" method="post"
+              onsubmit="enableFields()">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+            <input type="hidden" id="selectedTipoCadastro" name="selectedTipoCadastro"
+                   th:value="${selectedTipoCadastro}">
+
+            <div class="input-group">
+                <label for="tipoCadastro">Tipo de Cadastro:</label>
+                <select id="tipoCadastro" name="tipoCadastro" required>
+                    <option value="Territorio" selected>Território</option>
+                    <option value="Regional">Regional</option>
+                    <option value="Filial">Filial</option>
+                </select><br/>
+            </div>
+
+            <div class="input-group">
+                <label for="codigoTerritorio">Território:</label>
+                <input id="codigoTerritorio" name="codigoTerritorio" th:field="*{codigoTerritorio}" type="text"/><br/>
+            </div>
+
+            <div class="input-group">
+                <label for="codigoRegional">Cod Regional:</label>
+                <input id="codigoRegional" name="codigoRegional" th:field="*{codigoRegional}" type="text"/><br/>
+            </div>
+
+            <div class="input-group">
+                <label for="codigoFilial">Cod Filial:</label>
+                <input id="codigoFilial" name="codigoFilial" th:field="*{codigoFilial}" type="text"/><br/>
+            </div>
+
+            <div class="input-group">
+                <label for="nomeUnidade">Cod Unidade:</label>
+                <input id="nomeUnidade" name="nomeUnidade" th:field="*{nomeUnidade}" type="text"/><br/>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-padrao">Adicionar</button>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>

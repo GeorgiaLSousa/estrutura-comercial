@@ -1,10 +1,8 @@
 package com.inteligencia.ciclo_comercial.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 @Setter
 @Getter
@@ -30,9 +28,13 @@ public class Territorio {
     @Column(name = "Sales_Region_Hierarchy__r_Name")
     private String codigoFilial;
 
+    @NotNull(message = "Nome da unidade não pode ser nulo")
     @Column(name = "Commercial_Unit_Hierarchy__r_Name")
     private String nomeUnidade;
 
     @Column(name = "isActive__c")
-    private Boolean ativo = true; // Define o campo ativo como true por padrão
+    private Boolean ativo = true;
+
+    @Column(name = "ModificadoPor")
+    private String modificadoPor;
 }

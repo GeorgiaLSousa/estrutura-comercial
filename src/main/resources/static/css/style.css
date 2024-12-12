@@ -37,7 +37,7 @@ body {
 }
 
 .dropdown-btn {
-    background-color: #6b1d1d;
+    background-color: #71840A;
     color: white;
     padding: 1rem 2rem;
     border: none;
@@ -47,7 +47,7 @@ body {
 }
 
 .dropdown-btn:hover {
-    background-color: #930000;
+    background-color: #71840A;
 }
 
 .dropdown-content {
@@ -68,7 +68,7 @@ body {
 .dropdown-content .btn-logout {
     background-color: transparent;
     color: black;
-    border: solid 1px darkred;
+    border: solid 1px #0E2A3A;
     padding: 12px 16px;
     text-align: left;
     width: 100%;
@@ -100,7 +100,7 @@ body {
 
 .form-title {
     margin-bottom: 3vw;
-    color: #5C0A0A;
+    color: #0E2A3A;
     font-size: 1.8vw;
     font-weight: bold;
 }
@@ -112,7 +112,7 @@ body {
 
 label {
     margin-bottom: 0.5vw;
-    color: darkred;
+    color: #0E2A3A;
     font-weight: bold;
 }
 
@@ -124,8 +124,13 @@ input {
     font-size: 1vw;
 }
 
+input:disabled {
+    background-color: #d3d3d3; /* Cinza mais escuro */
+    color: #000; /* Cor do texto */
+}
+
 input:focus {
-    border-color: #6b1d1d;
+    border-color: #71840A;
     outline: none;
 }
 
@@ -136,7 +141,7 @@ input:focus {
 }
 
 .btn-padrao {
-    background-color: #6b1d1d;
+    background-color: #71840A;
     color: #fff;
     border: none;
     padding: 1vw 0;
@@ -151,12 +156,12 @@ input:focus {
 }
 
 .btn-padrao:hover {
-    background-color: #930000;
+    background-color: #0E2A3A;
 }
 
 .btn-cancel {
     text-decoration-line: underline;
-    color: #6b1d1d;
+    color: #0E2A3A;
     font-size: 1vw;
     width: 100%;
     margin-top: 1vw;
@@ -182,7 +187,7 @@ input:focus {
 }
 
 .btn-register {
-    background-color: #6b1d1d;
+    background-color: #0E2A3A;
     color: #fff;
     border: none;
     padding: 15px 40px;
@@ -195,7 +200,7 @@ input:focus {
 }
 
 .btn-register:hover {
-    background-color: #930000;
+    background-color: #0E2A3A;
 }
 
 .btn-voltar {
@@ -227,7 +232,7 @@ input:focus {
 }
 
 .select-field:focus {
-    border-color: #6b1d1d;
+    border-color: #0E2A3A;
     outline: none;
 }
 
@@ -269,7 +274,7 @@ input:focus {
 .btn-cadastro {
     text-decoration: none;
     color: #ffffff;
-    background-color: #71840A;
+    background-color: #0E2A3A;
     padding: 1vw 2vw;
     border-radius: 1vw;
     font-size: 1vw;
@@ -277,7 +282,7 @@ input:focus {
 }
 
 .btn-cadastro:hover {
-    background-color: #930000;
+    background-color: #0E2A3A;
 }
 
 .lista-usuario-container {
@@ -371,7 +376,6 @@ td a {
     font-size: 1vw;
     border: none;
     cursor: pointer;
-    background-image: url('../imagens/Vector.png');
     background-repeat: no-repeat;
     background-size: 1.3vw;
     background-position: 10px center;
@@ -386,7 +390,7 @@ td a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 05px;
     background-color: #00730B;
     color: #ffffff;
     padding: 0.5vw 2vw;
@@ -394,7 +398,6 @@ td a {
     font-size: 1vw;
     border: none;
     cursor: pointer;
-    background-image: url('https://img.icons8.com/ios-glyphs/30/ffffff/visible.png');
     background-repeat: no-repeat;
     background-size: 1.3vw;
     background-position: 10px center;
@@ -403,6 +406,28 @@ td a {
 
 .btn-visu:hover {
     background-color: #003105;
+}
+
+.btn-ina:hover {
+    background-color: #730303;
+}
+
+.btn-ina{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #930000;
+    color: #ffffff;
+    padding: 0.5vw 2vw;
+    border-radius: 10px;
+    font-size: 1vw;
+    border: none;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-size: 1.3vw;
+    background-position: 10px center;
+    padding-left: 3vw;
 }
 
 .btn-acao{
@@ -426,7 +451,7 @@ td a {
 }
 
 .checkbox-toggle-status {
-    --primary-color: #b50707;
+    --primary-color: #0E2A3A;
     --secondary-color: #fff;
     --checkbox-diameter: 20px;
     --checkbox-border-radius: 5px;

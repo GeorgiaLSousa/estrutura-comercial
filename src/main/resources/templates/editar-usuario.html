@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Usuário</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script>
+        function validateForm() {
+            const senha = document.getElementById("senha").value;
+
+            if (senha !== document.getElementById("confirmar-senha").value) {
+                alert("Senhas não conferem.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function clearForm() {
+            document.getElementById("senha").value = "";
+            document.getElementById("confirmar-senha").value = "";
+            document.getElementById("grupo").selectedIndex = 0;
+        }
+    </script>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo-container">
+            <img th:src="@{/imagens/logo_syngenta.png}" alt="logo_Syngenta" class="logo">
+            <div class="dropdown">
+                <button class="dropdown-btn" sec:authorize="isAuthenticated()">
+                    [[${#authentication.name}]] &#9662;
+                </button>
+                <div class="dropdown-content">
+                    <form method="post" th:action="@{/logout}">
+                        <button class="btn-logout" type="submit">Sair</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <button class="btn-voltar" onclick="window.location.href='/usuarios/lista-usuarios'" type="button"><img th:src="@{/imagens/seta.png}"></button>
+</header>
+
+<main class="main-cadastro-usuario">
+    <section class="form-container">
+        <h2 class="form-title">Edição</h2>
+        <div th:if="${mensagem}" th:text="${mensagem}" style="color:dimgray;"></div>
+
+<form method="post" onsubmit="return">
+    <div class="input-group">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" th:value="${usuarios.nome}" required>
+    </div>
+
+    <div class="input-group">
+        <label for="userId">User:</label>
+        <input type="text" id="userId" name="userId" th:value="${usuarios.userId}" required>
+    </div>
+</form>
+
+        <form th:action="@{/usuarios/editar-usuario}" method="post" onsubmit="return validateForm()">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+            <input type="hidden" name="emailUsuario" th:value="${usuarios.emailUsuario}">
+
+            <div class="input-group">
+                <label for="senha">Senha:</label>
+                <input id="senha" name="senha" required type="password"/><br/>
+            </div>
+            <div class="input-group">
+                <label for="confirmar-senha">Confirmar Senha:</label>
+                <input id="confirmar-senha" name="confirmar-senha" required type="password"/><br/>
+            </div>
+
+            <div class="input-group">
+                <label for="grupo">Grupo:</label>
+                <select id="grupo" name="grupo" class="select-field" required>
+                    <option value="ADMINISTRADOR" class="option-select">ADMINISTRADOR</option>
+                    <option value="ANALISTA" class="option-select">ANALISTA</option>
+                </select><br/>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-padrao">Salvar</button>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>

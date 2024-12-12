@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Território</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script>
+        function validateForm() {
+            const email = document.getElementById("email").value;
+            const senha = document.getElementById("senha").value;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailPattern.test(email)) {
+                alert("Email inválido.");
+                return false;
+            }
+
+            if (senha !== document.getElementById("confirmar-senha").value) {
+                alert("Senhas não conferem.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function clearForm() {
+            document.getElementById("nome").value = "";
+            document.getElementById("emailUsuario").value = "";
+            document.getElementById("userId").value = "";
+            document.getElementById("senha").value = "";
+            document.getElementById("confirmar-senha").value = "";
+            document.getElementById("grupo").selectedIndex = 0;
+
+        }
+    </script>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo-container">
+            <img th:src="@{/imagens/logo_syngenta.png}" alt="logo_Syngenta" class="logo">
+            <div class="dropdown">
+                <button class="dropdown-btn" sec:authorize="isAuthenticated()">
+                    [[${#authentication.name}]] &#9662;
+                </button>
+                <div class="dropdown-content">
+                    <form method="post" th:action="@{/logout}">
+                        <button class="btn-logout" type="submit">Sair</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <button class="btn-voltar" onclick="window.location.href='/usuarios/lista-usuarios'" type="button"><img th:src="@{/imagens/seta.png}"></button>
+</header>
+
+<main class="main-cadastro-usuario">
+    <section class="form-container">
+        <h2 class="form-title">Cadastro</h2>
+        <div th:if="${mensagem}" th:text="${mensagem}" style="color:dimgray;"></div>
+
+        <form th:action="@{/usuarios/cadastro-usuario}" th:object="${usuarios}" method="post" onsubmit="return validateForm()">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+            <div class="input-group">
+                <label for="nome">Nome:</label>
+                <input id="nome" name="nome" required th:field="*{nome}" type="text"/><br/>
+            </div>
+
+            <div class="input-group">
+                <label for="emailUsuario">E-mail:</label>
+                <input id="emailUsuario" name="emailUsuario" required th:field="*{emailUsuario}" type="email"/><br/>
+            </div>
+
+            <div class="input-group">
+                <label for="userId">User:</label>
+                <input id="userId" name="userId" required th:field="*{userId}" type="text"/><br/>
+            </div>
+
+            <div class="input-group">
+                <label for="senha">Senha:</label>
+                <input id="senha" name="senha" required th:field="*{senha}" type="password"/><br/>
+            </div>
+            <div class="input-group">
+                <label for="confirmar-senha">Confirmar Senha:</label>
+                <input id="confirmar-senha" name="confirmar-senha" required type="password"/><br/>
+            </div>
+
+            <div class="input-group">
+                <label for="grupo">Grupo:</label>
+                <select id="grupo" name="grupo" class="select-field" th:field="*{grupo}" required>
+                    <option value="ADMINISTRADOR" class="option-select">ADMINISTRADOR</option>
+                    <option value="ANALISTA" class="option-select">ANALISTA</option>
+                </select><br/>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-padrao">Adicionar</button>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>

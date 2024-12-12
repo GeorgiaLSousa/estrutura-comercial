@@ -8,20 +8,20 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/JS/openModal.js"></script>
     <script>
-    $(document).ready(function () {
-        $('#search').on('keyup', function () {
-            var codigoTerritorio = $(this).val();
-            $.ajax({
-                url: '/territorio/buscar-territorio',
-                data: {
-                    codigoTerritorio: codigoTerritorio
-                },
-            success: function (data) {
-                $('#tabela-territorio').html(data);
-            }
+        $(document).ready(function () {
+            $('#search').on('keyup', function () {
+                var nome = $(this).val();
+                $.ajax({
+                    url: '/usuarios/buscar-usuario',
+                    data: {
+                        nome: nome
+                    },
+                    success: function (data) {
+                        $('#tabela-usuarios').html(data);
+                    }
+                });
+            });
         });
-    });
-});
         function confirmChange() {
             return confirm("Tem certeza que deseja mudar o status do território?");
         }
@@ -55,12 +55,12 @@
 <main class="main-lista-usuario">
     <div class="content-wrapper">
         <section class="lista-usuario-container">
-            <h2 class="lista-title">Revisão de Estrutura</h2>
+            <h2 class="lista-title">Lista Usuarios</h2>
             <div class="header-container">
-                <input type="text" id="search" name="codigoTerritorio" placeholder="Pesquisar Território" autocomplete="off">
-                <a href="/territorio/cadastro-territorio" class="btn-cadastro"> + Inclusão Estrutura</a>
+                <input type="text" id="search" name="nome" placeholder="Pesquisar Usuário" autocomplete="off">
+                <a href="/usuarios/cadastro-usuario" class="btn-cadastro"> + Novo Usuario</a>
             </div>
-            <div id="tabela-territorio" th:replace="~{fragments/tabela-territorio :: tabela-territorio}"></div>
+            <div id="tabela-usuarios" th:replace="~{fragments/tabela-usuarios :: tabela-usuarios}"></div>
         </section>
     </div>
 </main>

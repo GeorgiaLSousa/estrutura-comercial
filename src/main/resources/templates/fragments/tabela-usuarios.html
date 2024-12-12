@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Território</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $('#search').on('keyup', function () {
+                var nome = $(this).val();
+                $.ajax({
+                    url: '/territorio/buscar-territorio',
+                    data: {
+                        nome: nome
+                    },
+                    success: function (data) {
+                        $('#tabela-territorio').html(data);
+                    }
+                });
+            });
+        });
+
+        function confirmChange() {
+            return confirm("Tem certeza que deseja mudar o status do território?");
+        }
+
+        function showInactiveUserError() {
+            alert("Não é possível editar um território inativo.");
+        }
+    </script>
+</head>
+<body>
+
+<div th:fragment="tabela-usuarios">
+    <table border="1" id="tabela-usuarios">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Grupo</th>
+            <th>Status</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="usuarios : ${usuarios}">
+            <td th:text="${usuarios.nome}">Nome</td>
+            <td th:text="${usuarios.emailUsuario}">E-mail</td>
+            <td th:text="${usuarios.grupo}">Grupo</td>
+            <td class="text-center">
+                <input type="checkbox" id="checkbox-toggle-status-${usuarios.emailUsuario}" class="checkbox-toggle-status" th:checked="!${usuarios.ativo}"
+                       th:onclick="|return confirmChange() ? window.location.href='@{/usuarios/alterar-estado-usuario(emailUsuario=${usuarios.emailUsuario})}' : false|">
+                <label th:for="'checkbox-toggle-status-' + ${usuarios.emailUsuario}" th:text="${usuarios.ativo} ? 'Ativo' : 'Inativo'"></label>
+            </td>
+            <td class="text-center">
+            <a class="btn-visu" th:href="@{/usuarios/editar-usuario/{emailUsuario}(emailUsuario=${usuarios.emailUsuario})}">Editar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -30,18 +30,42 @@ public class TerritorioService {
         return territorioRepository.findByCodigoTerritorio(codigoTerritorio);
     }
 
-    public Optional<Territorio> alterar_estado_territorio(String codigoTerritorio) {
+
+    public Optional<Territorio> alterar_estado_territorio(String codigoTerritorio, String username) {
         Optional<Territorio> territorioOpt = territorioRepository.findByCodigoTerritorio(codigoTerritorio);
         if (territorioOpt.isPresent()) {
             Territorio territorio = territorioOpt.get();
             territorio.setAtivo(!territorio.getAtivo());
+            territorio.setModificadoPor(username);
             territorioRepository.save(territorio);
         }
         return territorioOpt;
     }
 
-    public void alterar_estado_territorio(Territorio territorio) {
+    public void alterar_estado_territorio(Territorio territorio, String username) {
         territorio.setAtivo(!territorio.getAtivo());
+        territorio.setModificadoPor(username);
         territorioRepository.save(territorio);
+    }
+
+    public Optional<Territorio> findFirstByCodigoRegional(String codigoRegional) {
+        List<Territorio> territorios = territorioRepository.findByCodigoRegional(codigoRegional);
+        return territorios.stream().findFirst();
+    }
+
+
+    public Optional<Territorio> findFirstByCodigoFilial(String codigoFilial) {
+        List<Territorio> territorios = territorioRepository.findByCodigoFilial(codigoFilial);
+        return territorios.stream().findFirst();
+    }
+
+
+    public Optional<Territorio> findFirstByNomeUnidade(String nomeUnidade) {
+        List<Territorio> territorios = territorioRepository.findByNomeUnidade(nomeUnidade);
+        return territorios.stream().findFirst();
+    }
+
+    public boolean existsByNomeUnidade(String nomeUnidade) {
+        return territorioRepository.existsByNomeUnidade(nomeUnidade);
     }
 }

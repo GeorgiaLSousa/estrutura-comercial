@@ -1,11 +1,14 @@
 package com.inteligencia.ciclo_comercial.Controller;
 
 import com.inteligencia.ciclo_comercial.Model.Territorio;
+import com.inteligencia.ciclo_comercial.Model.Usuario;
 import com.inteligencia.ciclo_comercial.Service.MovimentacaoService;
 import com.inteligencia.ciclo_comercial.Service.RevisaoService;
 import com.inteligencia.ciclo_comercial.Service.TerritorioService;
+import com.inteligencia.ciclo_comercial.Service.UsuariosService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +27,9 @@ public class MovimentacaoController {
     private TerritorioService territorioService;
 
     @Autowired
+    private UsuariosService usuariosService;
+
+    @Autowired
     private MovimentacaoService movimentacaoService;
 
     @GetMapping("/movimentacao-regional/{codigoTerritorio}")
@@ -39,12 +45,24 @@ public class MovimentacaoController {
         }
     }
 
-  @PostMapping("/atualizar-regional")
-public String atualizarRegional(@RequestParam("codigoTerritorio") String codigoTerritorio,
-                                @RequestParam("codigoRegional") String codigoRegional,
-                                Model model) {
-        movimentacaoService.atualizarRegional(codigoTerritorio, codigoRegional);
-        model.addAttribute("mensagem", "Codigo Regional atualizado com sucesso!");
+    @PostMapping("/atualizar-regional")
+    public String atualizarRegional(@RequestParam("codigoTerritorio") String codigoTerritorio,
+                                    @RequestParam("codigoRegional") String codigoRegional,
+                                    @RequestParam("codigoFilial") String codigoFilial,
+                                    @RequestParam("nomeUnidade") String nomeUnidade,
+                                    Model model, Authentication authentication) {
+        String email = authentication.getName();
+        Optional<Usuario> usuarioOpt = usuariosService.findByEmailUsuario(email);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            String nome = usuario.getUserNome();
+            movimentacaoService.atualizarRegional(codigoTerritorio, codigoRegional, codigoFilial, nomeUnidade);
+            movimentacaoService.atualizarModificadoPor(codigoTerritorio, codigoRegional, codigoFilial, nome);
+            model.addAttribute("mensagem", "Dados atualizados com sucesso!");
+        } else {
+            model.addAttribute("mensagem", "Usuário não encontrado!");
+        }
         return "redirect:/territorio/lista-territorio";
     }
 }
+

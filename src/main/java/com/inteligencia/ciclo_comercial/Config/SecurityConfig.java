@@ -2,8 +2,13 @@ package com.inteligencia.ciclo_comercial.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 public class SecurityConfig {
@@ -13,11 +18,36 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                    .requestMatchers("/territorio/buscar-territorio","/territorio/lista-territorio", "/territorio/cadastro-territorio", "/cadastro-territorio", "/territorio/alterar-estado-territorio", "/revisao/atualizar-email", "/revisao/detalhes-territorio/{codigoTerritorio}", "/movimentacao/movimentacao-regional/{codigoTerritorio}", "/movimentacao/atualizar-regional", "/css/**", "/imagens/**", "/JS/**").permitAll()
+                    .requestMatchers("/login").permitAll()
+                    .requestMatchers("/dashboard", "/territorio/**", "/revisao/**", "/movimentacao/**").hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_ANALISTA")
+                    .requestMatchers("/usuarios/**").hasAuthority("ROLE_ADMINISTRADOR")
+                    .requestMatchers("/css/**", "/imagens/**", "/JS/**").permitAll()
                     .anyRequest().authenticated()
             )
-            .csrf(csrf -> csrf.disable()); // Desabilitar CSRF para fins de teste
+            .formLogin(form -> form
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .usernameParameter("emailUsuario")
+                .passwordParameter("senha")
+                .permitAll()
+                .failureHandler(new CustomAuthenticationFailureHandler())
+                .successHandler(new CustomAuthenticationSuccessHandler())
+            )
+            .headers(headers -> headers
+                .frameOptions(frame -> frame.sameOrigin())
+            )
+            .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
     }
 }
