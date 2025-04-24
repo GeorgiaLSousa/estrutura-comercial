@@ -1,5 +1,6 @@
 package com.inteligencia.ciclo_comercial.Repository;
 
+import com.inteligencia.ciclo_comercial.Model.UserAtivo;
 import com.inteligencia.ciclo_comercial.Model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,16 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UsuariosRepository extends JpaRepository<Usuario, Long> {
+public interface UserAtivoRepository extends JpaRepository<UserAtivo, String> {
 
-    @Query("SELECT p FROM Usuario p WHERE LOWER(p.nome) LIKE LOWER(CONCAT('%', :nome, '%'))")
-    List<Usuario> findByNome(@Param("nome") String nome);
-
-    Optional<Usuario> findByEmailUsuario(String email);
-
-
-
-
-
-
+    @Query("SELECT p FROM UserAtivo p WHERE LOWER(p.email) = LOWER(:email)")
+    Optional<UserAtivo> findByEmail(@Param("email") String email);
 }

@@ -9,9 +9,16 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Configuration
 public class SecurityConfig {
+
+    @Autowired
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -19,7 +26,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                     .requestMatchers("/login").permitAll()
-                    .requestMatchers("/dashboard", "/territorio/**", "/revisao/**", "/movimentacao/**").hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_ANALISTA")
+                    .requestMatchers("/dashboard", "/redefinir-senha", "/territorio/**", "/revisao/**", "/movimentacao/**").hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_ANALISTA")
                     .requestMatchers("/usuarios/**").hasAuthority("ROLE_ADMINISTRADOR")
                     .requestMatchers("/css/**", "/imagens/**", "/JS/**").permitAll()
                     .anyRequest().authenticated()
@@ -30,8 +37,8 @@ public class SecurityConfig {
                 .usernameParameter("emailUsuario")
                 .passwordParameter("senha")
                 .permitAll()
-                .failureHandler(new CustomAuthenticationFailureHandler())
-                .successHandler(new CustomAuthenticationSuccessHandler())
+                .failureHandler(customAuthenticationFailureHandler)
+                .successHandler(customAuthenticationSuccessHandler)
             )
             .headers(headers -> headers
                 .frameOptions(frame -> frame.sameOrigin())

@@ -135,27 +135,26 @@ function saveAndCloseModal() {
     closeModal();
 }
 
-    function openModalVisu(button) {
-        var produtoId = button.getAttribute('data-produto-id');
+function openModalVisu(button) {
+    var produtoId = button.getAttribute('data-produto-id');
 
-        $.ajax({
-            url: '/buscar-produto/' + produtoId,
-            type: 'GET',
-            success: function(produto) {
-                document.getElementById("produtoNome").innerText = produto.nome;
-                document.getElementById("produtoDescricao").innerText = produto.descricao;
-                document.getElementById("produtoPreco").innerText = produto.preco;
-                document.getElementById("produtoQtdEstoque").innerText = produto.qtdEstoque;
-                document.getElementById("imageModal").style.display = "block";
-            },
-            error: function(error) {
-                console.log(error);
-                alert('Erro ao buscar detalhes do produto');
-            }
-        });
-    }
+    $.ajax({
+        url: '/buscar-produto/' + produtoId,
+        type: 'GET',
+        success: function(produto) {
+            document.getElementById("produtoNome").innerText = produto.nome;
+            document.getElementById("produtoDescricao").innerText = produto.descricao;
+            document.getElementById("produtoPreco").innerText = produto.preco;
+            document.getElementById("produtoQtdEstoque").innerText = produto.qtdEstoque;
+            document.getElementById("imageModal").style.display = "block";
+        },
+        error: function(error) {
+            console.log(error);
+            alert('Erro ao buscar detalhes do produto');
+        }
+    });
+}
 
-    function closeModalVisu() {
-        document.getElementById("imageModal").style.display = "none";
-    }
-
+function closeModalVisu() {
+    document.getElementById("imageModal").style.display = "none";
+}

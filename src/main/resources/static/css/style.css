@@ -88,6 +88,20 @@ body {
     flex-grow: 1;
 }
 
+.main-cadastro-estrutura{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.main-revisao-pessoas{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
 .form-container {
     background-color: #fff;
     margin: 2vh;
@@ -98,6 +112,122 @@ body {
     text-align: center;
 }
 
+.form-container-estrutura {
+    background-color: #fff;
+    margin: 2vh;
+    padding: 3vw;
+    border-radius: 2vw;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+    width: 75vw;
+    text-align: center;
+}
+
+.form-container-pessoas {
+    background-color: #fff;
+    margin: 2vh;
+    padding: 3vw;
+    border-radius: 2vw;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+    width: 75vw;
+    text-align: center;
+}
+
+.form-container-movimentacao {
+    background-color: #fff;
+    margin: 2vh;
+    padding: 3vw;
+    border-radius: 2vw;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+    width: 75vw;
+    text-align: center;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dropdown-estru{
+    margin-top: 1%;
+}
+
+.form-column {
+    flex: 1;
+    margin-right: 2rem;
+    margin-left: 5%;
+    margin-top: -5%;
+
+}
+
+.form-column-1{
+    flex: 1;
+    margin-right: 1rem;
+    padding-top: 7%;
+    margin-right: 5%;
+}
+
+.form-column-p {
+    flex: 1;
+    margin-right: 2rem;
+    margin-left: 5%;
+    margin-top: 0%;
+
+}
+
+.form-column-p1{
+    flex: 1;
+    margin-right: 1rem;
+    margin-right: 5%;
+
+}
+
+.form-column-p2{
+    flex: 1;
+    margin-right: 1rem;
+    margin-right: 5%;
+    margin-top: -11%;
+    margin-left: 51%;
+}
+
+
+.form-column-3{
+    flex: 1;
+    margin-right: 2rem;
+    margin-left: 5%;
+    margin-top: -5%;
+
+}
+
+.form-column-p3{
+    flex: 1;
+    margin-right: 1rem;
+    padding-top: 6%;
+    margin-right: 5%;
+}
+.form-column-mov{
+    flex: 1;
+    margin-right: 1rem;
+    padding-top: 0%;
+    margin-right: 5%;
+}
+
+.form-column-mov1{
+    flex: 1;
+    margin-right: 1rem;
+    padding-top: 0%;
+    margin-right: 5%;
+}
+.solicitacao{
+
+}
+
+
+
+
+.form-column:last-child {
+    margin-right: 0;
+}
+
 .form-title {
     margin-bottom: 3vw;
     color: #0E2A3A;
@@ -106,8 +236,9 @@ body {
 }
 
 .input-group {
-    margin-bottom: 1.5vw;
+    margin-bottom: 3vw;
     text-align: left;
+
 }
 
 label {
@@ -116,9 +247,24 @@ label {
     font-weight: bold;
 }
 
+.dropdown-estru, select {
+    width: 50%;
+    padding: 0vw;
+    border: none; /* Remove the border */
+    border-radius: 1vw;
+    font-size: 1vw;
+    background-color: #fff;
+    box-shadow: none; /* Remove the box-shadow */
+}
+
+.dropdown-estru, select:focus {
+    border-color: #0E2A3A;
+    outline: none;
+}
+
 input {
     width: 100%;
-    padding: 1vw;
+    padding: 0.7vw;
     border: 2px solid gray;
     border-radius: 1vw;
     font-size: 1vw;
@@ -149,6 +295,21 @@ input:focus {
     border-radius: 1vw;
     cursor: pointer;
     width: 100%;
+    text-align: center;
+    line-height: 1.6vw;
+    margin: 2.5vw 0 1.5vw;
+    text-decoration: none;
+}
+
+.btn-adicionar {
+    background-color: #71840A;
+    color: #fff;
+    border: none;
+    padding: 1vw 0;
+    font-size: 1.2vw;
+    border-radius: 1vw;
+    cursor: pointer;
+    width: 40%;
     text-align: center;
     line-height: 1.6vw;
     margin: 2.5vw 0 1.5vw;
@@ -223,7 +384,7 @@ input:focus {
 
 .select-field {
     width: 100%;
-    padding: 1vw;
+    padding: 0.7vw;
     border: 2px solid gray;
     border-radius: 1vw;
     font-size: 1vw;
@@ -275,15 +436,55 @@ input:focus {
     text-decoration: none;
     color: #ffffff;
     background-color: #0E2A3A;
-    padding: 1vw 2vw;
+    padding: 1vw 2vw; /* Reduced padding */
     border-radius: 1vw;
     font-size: 1vw;
     cursor: pointer;
+    width: 20vw;
+    margin-right: 1%;
+    text-align: center;
+
 }
 
 .btn-cadastro:hover {
     background-color: #0E2A3A;
 }
+
+.btn-filial {
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #0E2A3A;
+    padding: 1vw 2vw; /* Reduced padding */
+    border-radius: 1vw;
+    font-size: 1vw;
+    cursor: pointer;
+    width: 15vw; /* Set specific width */
+    margin-right: 1%;
+    margin-left: 1%;
+}
+
+.btn-filial:hover {
+    background-color: #0E2A3A;
+}
+
+.btn-unidade {
+
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #0E2A3A;
+    padding: 1vw 2vw; /* Reduced padding */
+    border-radius: 1vw;
+    font-size: 1vw;
+    cursor: pointer;
+    width: 15vw; /* Set specific width */
+    margin-right: 1%;
+}
+
+.btn-unidade:hover {
+    background-color: #0E2A3A;
+}
+
 
 .lista-usuario-container {
     padding: 0 5vh;
@@ -350,7 +551,6 @@ td a {
     text-decoration: none;
 }
 
-
 .text-center {
     text-align: center;
 }
@@ -368,21 +568,42 @@ td a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    background-color: #D29000;
+    gap: 05px;
+    background-color: #00730B;
     color: #ffffff;
-    padding: 0.5vw 2vw;
+    padding: 2%;
     border-radius: 10px;
     font-size: 1vw;
+    text-align: center;
     border: none;
     cursor: pointer;
     background-repeat: no-repeat;
     background-size: 1.3vw;
     background-position: 10px center;
-    padding-left: 3vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
 }
 
-.btn-edit:hover {
+.btn-modi {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #D29000;
+    color: #ffffff;
+    padding: 2%;
+    border-radius: 10px;
+    font-size: 1vw;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-size: 1.3vw;
+    background-position: 10px center;
+    padding-left: 0.5vw;
+}
+
+.btn-modi:hover {
     background-color: #A66F00;
 }
 
@@ -393,15 +614,17 @@ td a {
     gap: 05px;
     background-color: #00730B;
     color: #ffffff;
-    padding: 0.5vw 2vw;
+    padding: 2%;
     border-radius: 10px;
     font-size: 1vw;
+    text-align: center;
     border: none;
     cursor: pointer;
     background-repeat: no-repeat;
     background-size: 1.3vw;
     background-position: 10px center;
-    padding-left: 3vw;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
 }
 
 .btn-visu:hover {
@@ -419,15 +642,17 @@ td a {
     gap: 10px;
     background-color: #930000;
     color: #ffffff;
-    padding: 0.5vw 2vw;
+    padding: 2%;
     border-radius: 10px;
     font-size: 1vw;
+    text-align: center;
     border: none;
     cursor: pointer;
     background-repeat: no-repeat;
     background-size: 1.3vw;
     background-position: 10px center;
-    padding-left: 3vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
 }
 
 .btn-acao{

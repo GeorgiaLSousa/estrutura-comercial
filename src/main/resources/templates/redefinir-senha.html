@@ -22,17 +22,6 @@
         function clearForm() {
             document.getElementById("senha").value = "";
             document.getElementById("confirmar-senha").value = "";
-            document.getElementById("grupo").selectedIndex = 0;
-        }
-
-        function generateRandomPassword() {
-            $.ajax({
-                url: '/usuarios/gerar-senha',
-                success: function (data) {
-                    document.getElementById("senha").value = data;
-                    document.getElementById("confirmar-senha").value = data;
-                }
-            });
         }
     </script>
 </head>
@@ -55,30 +44,17 @@
         </div>
     </nav>
 
-    <button class="btn-voltar" onclick="window.location.href='/usuarios/lista-usuarios'" type="button"><img
-            th:src="@{/imagens/seta.png}"></button>
 </header>
 
 <main class="main-cadastro-usuario">
     <section class="form-container">
-        <h2 class="form-title">Edição</h2>
+        <h2 class="form-title">Alterar Senha</h2>
         <div th:if="${mensagem}" th:text="${mensagem}" style="color:dimgray;"></div>
 
-        <form method="post" onsubmit="return">
-            <div class="input-group">
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" th:value="${usuarios.nome}" required>
-            </div>
-
-            <div class="input-group">
-                <label for="userId">User:</label>
-                <input type="text" id="userId" name="userId" th:value="${usuarios.userId}" required>
-            </div>
-        </form>
-
-        <form th:action="@{/usuarios/editar-usuario}" method="post" onsubmit="return validateForm()">
+        <form th:action="@{/redefinir-senha}" method="post" onsubmit="return validateForm()">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <input type="hidden" name="emailUsuario" th:value="${usuarios.emailUsuario}">
+            <input type="hidden" name="grupo" th:value="${usuarios.grupo}">
 
             <div class="input-group">
                 <label for="senha">Senha:</label>
@@ -89,19 +65,9 @@
                 <input id="confirmar-senha" name="confirmar-senha" required type="password"/><br/>
             </div>
 
-
-            <div class="input-group">
-                <label for="grupo">Grupo:</label>
-                <select id="grupo" name="grupo" class="select-field" required>
-                    <option value="ADMINISTRADOR" class="option-select">ADMINISTRADOR</option>
-                    <option value="ANALISTA" class="option-select">ANALISTA</option>
-                </select><br/>
-            </div>
-
             <div class="button-group">
                 <button type="submit" class="btn-padrao">Salvar</button>
             </div>
-
         </form>
     </section>
 </main>

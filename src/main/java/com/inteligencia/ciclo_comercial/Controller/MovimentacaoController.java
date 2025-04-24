@@ -3,10 +3,8 @@ package com.inteligencia.ciclo_comercial.Controller;
 import com.inteligencia.ciclo_comercial.Model.Territorio;
 import com.inteligencia.ciclo_comercial.Model.Usuario;
 import com.inteligencia.ciclo_comercial.Service.MovimentacaoService;
-import com.inteligencia.ciclo_comercial.Service.RevisaoService;
 import com.inteligencia.ciclo_comercial.Service.TerritorioService;
 import com.inteligencia.ciclo_comercial.Service.UsuariosService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -58,6 +56,7 @@ public class MovimentacaoController {
             String nome = usuario.getUserNome();
             movimentacaoService.atualizarRegional(codigoTerritorio, codigoRegional, codigoFilial, nomeUnidade);
             movimentacaoService.atualizarModificadoPor(codigoTerritorio, codigoRegional, codigoFilial, nome);
+            movimentacaoService.atualizarStatus(codigoTerritorio, "Movimentado");
             model.addAttribute("mensagem", "Dados atualizados com sucesso!");
         } else {
             model.addAttribute("mensagem", "Usuário não encontrado!");
@@ -65,4 +64,3 @@ public class MovimentacaoController {
         return "redirect:/territorio/lista-territorio";
     }
 }
-

@@ -75,7 +75,7 @@
                 <label th:for="'checkbox-toggle-status-' + ${usuarios.emailUsuario}" th:text="${usuarios.ativo} ? 'Ativo' : 'Inativo'"></label>
             </td>
             <td class="text-center">
-            <a class="btn-visu" th:href="@{/usuarios/editar-usuario/{emailUsuario}(emailUsuario=${usuarios.emailUsuario})}">Editar</a>
+            <a class="btn-edit" th:href="@{/usuarios/editar-usuario/{emailUsuario}(emailUsuario=${usuarios.emailUsuario})}">Editar</a>
             </td>
         </tr>
         </tbody>

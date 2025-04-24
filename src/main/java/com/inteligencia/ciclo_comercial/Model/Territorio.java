@@ -37,4 +37,11 @@ public class Territorio {
 
     @Column(name = "ModificadoPor")
     private String modificadoPor;
+
+    @Column(name = "Status")
+    private String status;
+
+    @Column(name = "data_modificacao")
+    private String dataModificacao;
+
 }

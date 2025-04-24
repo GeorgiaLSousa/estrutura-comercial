@@ -44,4 +44,6 @@ public class UsuariosService {
         usuarios.setAtivo(!usuarios.getAtivo());
         usuariosRepository.save(usuarios);
     }
+
+
 }

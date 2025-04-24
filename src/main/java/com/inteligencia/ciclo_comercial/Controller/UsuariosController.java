@@ -5,9 +5,6 @@ import com.inteligencia.ciclo_comercial.Service.LoginService;
 import com.inteligencia.ciclo_comercial.Service.UsuariosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -90,6 +87,7 @@ public class UsuariosController {
         model.addAttribute("usuarios", usuarios);
         return "lista-usuarios";
     }
+
 
     @GetMapping("/buscar-usuario")
     public String buscarUsuario(@RequestParam("nome") String nome, Model model) {

@@ -12,11 +12,14 @@ import java.util.List;
 @Repository
 public interface TerritorioRepository extends JpaRepository<Territorio, Long> {
 
+
     @Query("SELECT p FROM Territorio p WHERE LOWER(p.codigoTerritorio) LIKE LOWER(CONCAT('%', :codigoTerritorio, '%'))")
     List<Territorio> findByNome(@Param("codigoTerritorio") String codigoTerritorio);
 
+
     @Query("SELECT t FROM Territorio t WHERE LOWER(t.codigoRegional) = LOWER(:codigoRegional)")
     List<Territorio> findByCodigoRegional(@Param("codigoRegional") String codigoRegional);
+
 
     @Query("SELECT t FROM Territorio t WHERE LOWER(t.codigoFilial) = LOWER(:codigoFilial)")
     List<Territorio> findByCodigoFilial(@Param("codigoFilial") String codigoFilial);
@@ -24,11 +27,14 @@ public interface TerritorioRepository extends JpaRepository<Territorio, Long> {
     @Query("SELECT t FROM Territorio t WHERE LOWER(t.nomeUnidade) = LOWER(:nomeUnidade)")
     List<Territorio> findByNomeUnidade(@Param("nomeUnidade") String nomeUnidade);
 
+
     @Query("SELECT t FROM Territorio t WHERE LOWER(t.codigoRegional) = LOWER(:codigoRegional)")
     Optional<Territorio> findFirstByCodigoRegional(@Param("codigoRegional") String codigoRegional);
 
+
     @Query("SELECT t FROM Territorio t WHERE LOWER(t.codigoFilial) = LOWER(:codigoFilial)")
     Optional<Territorio> findFirstByCodigoFilial(@Param("codigoFilial") String codigoFilial);
+
 
     @Query("SELECT t FROM Territorio t WHERE LOWER(t.nomeUnidade) = LOWER(:nomeUnidade)")
     Optional<Territorio> findFirstByNomeUnidade(@Param("nomeUnidade") String nomeUnidade);
@@ -36,4 +42,5 @@ public interface TerritorioRepository extends JpaRepository<Territorio, Long> {
     boolean existsByNomeUnidade(String nomeUnidade);
 
     Optional<Territorio> findByCodigoTerritorio(String codigoTerritorio);
+
 }

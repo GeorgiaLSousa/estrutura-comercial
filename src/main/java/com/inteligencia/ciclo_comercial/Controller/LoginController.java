@@ -51,10 +51,12 @@ public class LoginController {
         } else if (usuario.get().getGrupo().equals("CLIENTE")) {
             model.addAttribute("error", "Acesso negado!");
             return "login";
+        } else if ("A1B2C3".equals(usuario.get().getSenha())) {
+            return "redirect:/redefinir-senha";
         } else {
             try {
                 Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(userEmail, senha)
+                        new UsernamePasswordAuthenticationToken(userEmail, senha)
                 );
                 SecurityContextHolder.getContext().setAuthentication(auth);
                 return "redirect:/dashboard";
@@ -64,4 +66,29 @@ public class LoginController {
             }
         }
     }
+
+    @GetMapping("/redefinir-senha")
+    public String showRedefinirSenhaPage(Model model) {
+        // Add the 'usuarios' attribute to the model
+        Optional<Usuario> usuarioOpt = usuariosService.findByEmailUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (usuarioOpt.isPresent()) {
+            model.addAttribute("usuarios", usuarioOpt.get());
+        }
+        return "redefinir-senha";
+    }
+
+ @PostMapping("/redefinir-senha")
+public String editarUsuario(@RequestParam("emailUsuario") String emailUsuario, @RequestParam("senha") String senha, @RequestParam("grupo") String grupo, Model model) {
+    Optional<Usuario> usuarioOpt = usuariosService.findByEmailUsuario(emailUsuario);
+    if (usuarioOpt.isPresent()) {
+        Usuario usuario = usuarioOpt.get();
+        usuario.setSenha(senha);
+        usuario.setGrupo(grupo); // Mantém o grupo do usuário
+        usuariosService.save(usuario);
+        model.addAttribute("mensagem", "Usuário editado com sucesso!");
+    } else {
+        model.addAttribute("mensagem", "Usuário não encontrado!");
+    }
+    return "redirect:/territorio/lista-territorio";
+}
 }

@@ -8,20 +8,122 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/JS/openModal.js"></script>
     <script>
-    $(document).ready(function () {
-        $('#search').on('keyup', function () {
-            var codigoTerritorio = $(this).val();
-            $.ajax({
-                url: '/territorio/buscar-territorio',
-                data: {
-                    codigoTerritorio: codigoTerritorio
-                },
-            success: function (data) {
-                $('#tabela-territorio').html(data);
-            }
+        $(document).ready(function () {
+            $('#search').on('keyup', function () {
+                var codigoTerritorio = $(this).val();
+                $.ajax({
+                    url: '/territorio/buscar-territorio',
+                    data: {
+                        codigoTerritorio: codigoTerritorio
+                    },
+                    success: function (data) {
+                        $('#tabela-territorio').html(data);
+                    }
+                });
+            });
+
+            $('#search2').on('change', function () {
+                var nomeUnidade = $(this).val();
+                if (nomeUnidade.trim() === "") {
+                    $.ajax({
+                        url: '/territorio/lista-territorio',
+                        success: function (data) {
+                            $('#tabela-territorio').html($(data).find('#tabela-territorio').html());
+                        }
+                    });
+                    // Reset filial dropdown
+                    $('#search3').empty();
+                    $('#search3').append('<option value=" ">Todas Filiais</option>');
+                    $('#search3').append('<option value="BR0003">BR0003</option>');
+                    $('#search3').append('<option value="BR0004">BR0004</option>');
+                    $('#search3').append('<option value="BR0005">BR0005</option>');
+                    $('#search3').append('<option value="BR0006">BR0006</option>');
+                    $('#search3').append('<option value="BR0008">BR0008</option>');
+                    $('#search3').append('<option value="BR0010">BR0010</option>');
+                    $('#search3').append('<option value="BR0017">BR0017</option>');
+                    $('#search3').append('<option value="BR0020">BR0020</option>');
+                    $('#search3').append('<option value="BR0023">BR0023</option>');
+                    $('#search3').append('<option value="BR0024">BR0024</option>');
+                    $('#search3').append('<option value="BR0025">BR0025</option>');
+                    $('#search3').append('<option value="BR0028">BR0028</option>');
+                    $('#search3').append('<option value="BR0029">BR0029</option>');
+                    $('#search3').append('<option value="BR0030">BR0030</option>');
+                    $('#search3').append('<option value="BR0031">BR0031</option>');
+                    $('#search3').append('<option value="BR0032">BR0032</option>');
+                    return;
+                }
+                $.ajax({
+                    url: '/territorio/buscar-unidade',
+                    data: {
+                        nomeUnidade: nomeUnidade
+                    },
+                    success: function (data) {
+                        $('#tabela-territorio').html(data);
+                    }
+                });
+
+                // Fetch filiais based on selected unidade
+                $.ajax({
+                    url: '/territorio/filiais-por-unidade',
+                    data: {
+                        nomeUnidade: nomeUnidade
+                    },
+                    success: function (data) {
+                        var filialSelect = $('#search3');
+                        filialSelect.empty();
+                        filialSelect.append('<option value=" ">Todas Filiais</option>');
+                        data.forEach(function (filial) {
+                            filialSelect.append('<option value="' + filial + '">' + filial + '</option>');
+                        });
+                    }
+                });
+            });
+
+            $('#search3').on('change', function () {
+                var codigoFilial = $(this).val();
+                if (codigoFilial.trim() === "") {
+                    $.ajax({
+                        url: '/territorio/lista-territorio',
+                        success: function (data) {
+                            $('#tabela-territorio').html($(data).find('#tabela-territorio').html());
+                        }
+                    });
+                    // Reset unidade dropdown
+                    $('#search2').empty();
+                    $('#search2').append('<option value=" ">Todas Unidades</option>');
+                    $('#search2').append('<option value="BR01">BR01</option>');
+                    $('#search2').append('<option value="BR02">BR02</option>');
+                    $('#search2').append('<option value="BR03">BR03</option>');
+                    $('#search2').append('<option value="BR04">BR04</option>');
+                    $('#search2').append('<option value="BR22">BR22</option>');
+                    $('#search2').append('<option value="BR23">BR23</option>');
+                    return;
+                }
+                $.ajax({
+                    url: '/territorio/buscar-filial',
+                    data: {
+                        codigoFilial: codigoFilial
+                    },
+                    success: function (data) {
+                        $('#tabela-territorio').html(data);
+                    }
+                });
+
+                // Fetch unidade based on selected filial
+                $.ajax({
+                    url: '/territorio/unidade-por-filial',
+                    data: {
+                        codigoFilial: codigoFilial
+                    },
+                    success: function (data) {
+                        var unidadeSelect = $('#search2');
+                        unidadeSelect.empty();
+                        unidadeSelect.append('<option value="' + data + '">' + data + '</option>');
+                    }
+                });
+            });
         });
-    });
-});
+
         function confirmChange() {
             return confirm("Tem certeza que deseja mudar o status do território?");
         }
@@ -58,9 +160,38 @@
             <h2 class="lista-title">Revisão de Estrutura</h2>
             <div class="header-container">
                 <input type="text" id="search" name="codigoTerritorio" placeholder="Pesquisar Território" autocomplete="off">
-                <a href="/territorio/cadastro-territorio" class="btn-cadastro"> + Inclusão Estrutura</a>
+
+                <select id="search3" class="btn-filial" name="codigoFilial">
+                    <option value=" ">Todas Filiais</option>
+                    <option value="BR0003">BR0003</option>
+                    <option value="BR0004">BR0004</option>
+                    <option value="BR0005">BR0005</option>
+                    <option value="BR0006">BR0006</option>
+                    <option value="BR0008">BR0008</option>
+                    <option value="BR0010">BR0010</option>
+                    <option value="BR0017">BR0017</option>
+                    <option value="BR0020">BR0020</option>
+                    <option value="BR0023">BR0023</option>
+                    <option value="BR0024">BR0024</option>
+                    <option value="BR0025">BR0025</option>
+                    <option value="BR0028">BR0028</option>
+                    <option value="BR0029">BR0029</option>
+                    <option value="BR0030">BR0030</option>
+                    <option value="BR0031">BR0031</option>
+                    <option value="BR0032">BR0032</option>
+                </select>
+                <select id="search2" class="btn-unidade" name="nomeUnidade">
+                    <option value=" ">Todas Unidades</option>
+                    <option value="BR01">BR01</option>
+                    <option value="BR02">BR02</option>
+                    <option value="BR03">BR03</option>
+                    <option value="BR04">BR04</option>
+                    <option value="BR22">BR22</option>
+                    <option value="BR23">BR23</option>
+                </select>
+                <a href="/territorio/cadastro-territorio" class="btn-cadastro">+ Inclusão Estrutura</a>
             </div>
-            <div id="tabela-territorio" th:replace="~{fragments/tabela-territorio :: tabela-territorio}"></div>
+            <div id="tabela-territorio" th:replace="fragments/tabela-territorio :: tabela-territorio"></div>
         </section>
     </div>
 </main>

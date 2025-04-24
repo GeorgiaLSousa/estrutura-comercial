@@ -1,96 +1,80 @@
 <!DOCTYPE html>
-<html xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Cadastro de Território</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <style>
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgb(0,0,0);
-      background-color: rgba(0,0,0,0.4);
-    }
+    <meta charset="UTF-8">
+    <title>Fragment - Tabela Território</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function alterarEstadoTerritorio(codigoTerritorio) {
+            if (confirm("Tem certeza que deseja mudar o status do território?")) {
+                $.ajax({
+                    url: '/territorio/alterar-estado-territorio',
+                    type: 'POST',
+                    data: {
+                        codigoTerritorio: codigoTerritorio
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+                    },
+                    success: function (data) {
+                        $('#tabela-territorio').html(data);
+                    },
+                    error: function () {
+                        alert("Erro ao alterar o estado do território.");
+                    }
 
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-    }
-  </style>
-  <script>
-    $(document).ready(function () {
-      $('#search').on('keyup', function () {
-        var nome = $(this).val();
-        $.ajax({
-          url: '/territorio/buscar-territorio',
-          data: {
-            nome: nome
-          },
-          success: function (data) {
-            $('#tabela-territorio').html(data);
-          }
-        });
-      });
-    });
+                });
 
-    function confirmChange() {
-      return confirm("Tem certeza que deseja mudar o status do território?");
-    }
 
-    function showInactiveUserError() {
-      alert("Não é possível editar um território inativo.");
-    }
-  </script>
+                function confirmChange() {
+                    return confirm("Tem certeza que deseja mudar o status do território?");
+                }
+
+                function showInactiveUserError() {
+                    alert("Não é possível editar um território inativo.");
+                }
+            }
+        }
+    </script>
 </head>
 <body>
-
 <div th:fragment="tabela-territorio">
-  <table border="1" id="tabela-territorio">
-    <thead>
-    <tr>
-      <th>Território</th>
-      <th>Cod Regional</th>
-      <th>Cod Filial</th>
-      <th>Unidade Comercial</th>
-      <th>Pessoa Alocada</th>
-      <th>Status</th>
-      <th>Ações</th>
-      <th>Modificado Por</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="territorio : ${territorios}">
-      <td th:text="${territorio.codigoTerritorio}">Território</td>
-      <td th:text="${territorio.codigoRegional}">codRegional</td>
-      <td th:text="${territorio.codigoFilial}">codFilial</td>
-      <td th:text="${territorio.nomeUnidade}">codUnidade</td>
-      <td th:text="${territorio.emailRTV}">emailRTV</td>
-      <td class="text-center">
-        <input type="checkbox" id="checkbox-toggle-status-${territorio.codigoTerritorio}"  class="checkbox-toggle-status" th:checked="!${territorio.ativo}"
-               th:onclick="|return confirmChange() ? window.location.href='@{/territorio/alterar-estado-territorio(codigoTerritorio=${territorio.codigoTerritorio})}' : false|">
-        <label th:for="'checkbox-toggle-status-' + ${territorio.codigoTerritorio}" th:text="${territorio.ativo} ? 'Ativo' : 'Inativo'"></label>
-      </td>
-      <td class="text-center">
-        <a class="btn-visu" th:href="@{/revisao/detalhes-territorio(codigoTerritorio=${territorio.codigoTerritorio})}">Pessoas</a>
-        <a class="btn-edit" th:href="@{/movimentacao/movimentacao-regional/{codigoTerritorio}(codigoTerritorio=${territorio.codigoTerritorio})}">Movimentação</a>
-        <a class="btn-ina" th:href="@{/territorio/alterar-estado-territorio(codigoTerritorio=${territorio.codigoTerritorio})}" th:onclick="return confirmChange()">
-          <span th:text="${territorio.ativo} ? 'Inativar' : 'Ativar'"></span>
-        </a>
-      </td>
-      <td th:text="${territorio.modificadoPor}">territorio-modificado-por</td>
-
-    </tr>
-    </tbody>
-  </table>
+    <table border="1" id="tabela-territorio">
+        <thead>
+        <tr>
+            <th>Território</th>
+            <th>Cod Regional</th>
+            <th>Cod Filial</th>
+            <th>Unidade Comercial</th>
+            <th>Pessoa Alocada</th>
+            <th>Status</th>
+            <th>Ações</th>
+            <th>Modificado Por</th>
+            <th>Última Modificação</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="territorio : ${territorios}">
+            <td th:text="${territorio.codigoTerritorio}">Território</td>
+            <td th:text="${territorio.codigoRegional}">codRegional</td>
+            <td th:text="${territorio.codigoFilial}">codFilial</td>
+            <td th:text="${territorio.nomeUnidade}">codUnidade</td>
+            <td th:text="${territorio.emailRTV}">emailRTV</td>
+            <td th:text="${territorio.status}">status</td>
+            <td class="text-center">
+                <a class="btn-visu"
+                   th:href="@{/revisao/detalhes-territorio(codigoTerritorio=${territorio.codigoTerritorio})}">Pessoas</a>
+                <a class="btn-modi"
+                   th:href="@{/movimentacao/movimentacao-regional/{codigoTerritorio}(codigoTerritorio=${territorio.codigoTerritorio})}">Movimentação</a>
+                <a class="btn-ina" th:href="@{/territorio/alterar-estado-territorio(codigoTerritorio=${territorio.codigoTerritorio})}" th:onclick="return confirmChange()">
+                    <span th:text="${territorio.ativo} ? 'Inativar' : 'Ativar'"></span>
+                </a>
+            </td>
+            <td th:text="${territorio.modificadoPor}">territorio-modificado-por</td>
+            <td th:text="${territorio.dataModificacao}">data-Modificacao</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

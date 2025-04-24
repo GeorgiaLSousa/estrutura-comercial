@@ -1,70 +1,92 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <title>Detalhes do Território</title>
-  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="/css/style.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="/JS/openModal.js"></script>
+    <meta charset="UTF-8">
+    <title>Detalhes do Território</title>
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/JS/openModal.js"></script>
 </head>
 <body>
 <header>
-  <nav>
-    <div class="logo-container">
-      <img th:src="@{/imagens/logo_syngenta.png}" alt="logo_Syngenta" class="logo">
-      <div class="dropdown">
-        <button class="dropdown-btn" sec:authorize="isAuthenticated()">
-          [[${#authentication.name}]] &#9662;
-        </button>
-        <div class="dropdown-content">
-          <form method="post" th:action="@{/logout}">
-            <button class="btn-logout" type="submit">Sair</button>
-          </form>
+    <nav>
+        <div class="logo-container">
+            <img th:src="@{/imagens/logo_syngenta.png}" alt="logo_Syngenta" class="logo">
+            <div class="dropdown">
+                <button class="dropdown-btn" sec:authorize="isAuthenticated()">
+                    [[${#authentication.name}]] &#9662;
+                </button>
+                <div class="dropdown-content">
+                    <form method="post" th:action="@{/logout}">
+                        <button class="btn-logout" type="submit">Sair</button>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </nav>
-  <button class="btn-voltar" onclick="window.location.href='/territorio/lista-territorio'" type="button">
-    <img src="/imagens/seta.png">
-  </button>
+    </nav>
+    <button class="btn-voltar" onclick="window.location.href='/territorio/lista-territorio'" type="button">
+        <img src="/imagens/seta.png">
+    </button>
 </header>
 <main class="main-revisao-pessoas">
-  <section class="form-container">
-    <h2 class="form-title">Realocação de Pessoas</h2>
-    <div th:if="${mensagem}">
-      <p style="color: red;" th:text="${mensagem}"></p>
-    </div>
-    <form action="/revisao/detalhes-territorio" method="get">
-      <div class="input-group">
-        <label for="codigoTerritorio">Território:</label>
-        <input type="text" id="codigoTerritorio" name="codigoTerritorio" th:value="${territorio.codigoTerritorio}" required readonly>
-      </div>
-      <div class="input-group">
-        <label for="codigoRegional">Cod Regional:</label>
-        <input type="text" id="codigoRegional" name="codigoRegional" th:value="${territorio.codigoRegional}" required readonly >
-      </div>
-      <div class="input-group">
-        <label for="codigoFilial">Cod Filial:</label>
-        <input type="text" id="codigoFilial" name="codigoFilial" th:value="${territorio.codigoFilial}" required readonly >
-      </div>
-      <div class="input-group">
-        <label for="nomeUnidade">Cod Unidade:</label>
-        <input type="text" id="nomeUnidade" name="nomeUnidade" th:value="${territorio.nomeUnidade}" required readonly >
-      </div>
-      <div class="input-group">
-        <label for="emailRTV">E-mail Pessoa Alocada:</label>
-        <input type="text" id="emailRTV" name="emailRTV" th:value="${territorio.emailRTV}" required readonly >
-      </div>
-    </form>
-    <h2>Email Nova Pessoa Alocada:</h2>
-    <form action="/revisao/atualizar-email" method="post">
-      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-      <input type="hidden" name="codigoTerritorio" th:value="${territorio.codigoTerritorio}">
-      <input type="email" name="emailRTV" placeholder="Email RTV" required>
-      <button type="submit">Atualizar Email</button>
-    </form>
-  </section>
+    <section class="form-container-pessoas">
+        <h2 class="form-title">Realocação de Pessoas</h2>
+        <div th:if="${mensagem}">
+            <p style="color: red;" th:text="${mensagem}"></p>
+        </div>
+
+        <form action="/revisao/detalhes-territorio" method="get">
+            <div class="form-row">
+                <div class="form-column-p">
+                    <div class="input-group">
+                        <label for="codigoTerritorio">Território:</label>
+                        <input type="text" id="codigoTerritorio" name="codigoTerritorio"
+                               th:value="${territorio.codigoTerritorio}" required readonly>
+                    </div>
+                    <div class="input-group">
+                        <label for="codigoRegional">Cod Regional:</label>
+                        <input type="text" id="codigoRegional" name="codigoRegional"
+                               th:value="${territorio.codigoRegional}" required readonly>
+                    </div>
+                    <div class="input-group">
+                        <label for="codigoFilial">Cod Filial:</label>
+                        <input type="text" id="codigoFilial" name="codigoFilial"
+                               th:value="${territorio.codigoFilial}" required readonly>
+                    </div>
+                </div>
+
+                <div class="form-column-p1">
+                    <div class="input-group">
+                        <label for="nomeUnidade">Cod Unidade:</label>
+                        <input type="text" id="nomeUnidade" name="nomeUnidade" th:value="${territorio.nomeUnidade}"
+                               required readonly>
+                    </div>
+                    <div class="input-group">
+                        <label for="emailRTV">E-mail Pessoa Alocada:</label>
+                        <input type="text" id="emailRTV" name="emailRTV" th:value="${territorio.emailRTV}" required
+                               readonly>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form action="/revisao/atualizar-email" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden" name="codigoTerritorio" th:value="${territorio.codigoTerritorio}">
+            <div class="form-row">
+                <div class="form-column-p2">
+                    <div class="input-group">
+                        <label for="emailRTV">E-mail nova Pessoa Alocada:</label>
+                        <input type="email" name="emailRTV" placeholder="Email RTV" required>
+                    </div>
+                </div>
+            </div>
+            <div class="button-group">
+                <button type="submit" class="btn-adicionar">Adicionar</button>
+            </div>
+        </form>
+    </section>
 </main>
 </body>
 </html>
